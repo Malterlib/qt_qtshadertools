@@ -1555,7 +1555,7 @@ void TParseContext::handleCoopMat2FunctionCall(const TSourceLoc& loc, const TFun
                         error(loc, "coordinate parameters must be uint32_t", param->getAsSymbolNode()->getMangledName().c_str(), "");
                     }
                 }
-                
+
                 // error checking reduce function has matching parameters
                 if (fnCandidate->getBuiltInOp() == EOpCooperativeMatrixReduceNV) {
                     const TFunction* combineOp = symbolTable.find(param->getAsSymbolNode()->getMangledName())->getAsFunction();
@@ -10358,10 +10358,10 @@ const TTypeList* TParseContext::recordStructCopy(TStructRecord& record, const TT
     size_t originHash = 0, tmpHash = 0;
     std::hash<size_t> hasher;
     for (size_t i = 0; i < memberCount; i++) {
-        size_t originMemberHash = hasher(originType->getStruct()->at(i).type->getQualifier().layoutPacking +
-                                         originType->getStruct()->at(i).type->getQualifier().layoutMatrix);
-        size_t tmpMemberHash = hasher(tmpType->getStruct()->at(i).type->getQualifier().layoutPacking +
-                                      tmpType->getStruct()->at(i).type->getQualifier().layoutMatrix);
+        size_t originMemberHash = hasher(int(originType->getStruct()->at(i).type->getQualifier().layoutPacking) +
+                                         int(originType->getStruct()->at(i).type->getQualifier().layoutMatrix));
+        size_t tmpMemberHash = hasher(int(tmpType->getStruct()->at(i).type->getQualifier().layoutPacking) +
+                                      int(tmpType->getStruct()->at(i).type->getQualifier().layoutMatrix));
         originHash = hasher((originHash ^ originMemberHash) << 1);
         tmpHash = hasher((tmpHash ^ tmpMemberHash) << 1);
     }
