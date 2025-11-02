@@ -221,8 +221,9 @@ function(_qt_internal_add_shaders_impl target resourcename)
             set(depfile "${qsb_result}.d")
             list(APPEND qsb_args "--depfile" "${depfile}")
             set(depfile_extra_args DEPFILE "${depfile}")
+            set(depfile_extra_output "${depfile}")
         else()
-            set(depfile_extra_args "")
+            set(depfile_extra_output "")
         endif()
 
         list(APPEND qsb_args "${file_absolute}")
@@ -234,7 +235,7 @@ function(_qt_internal_add_shaders_impl target resourcename)
             endif()
             add_custom_command(
                 OUTPUT
-                    ${qsb_result}
+                    ${qsb_result} ${depfile_extra_output}
                 COMMAND
                     ${QT_CMAKE_EXPORT_NAMESPACE}::qsb ${qsb_args}
                 COMMAND
